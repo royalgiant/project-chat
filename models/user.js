@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var passportLocalMongoose = require('passport-local-mongoose');
 
 // create user schema
-var userSchema = new Schema({
+var User = new Schema({
   name: String,
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -18,5 +19,7 @@ var userSchema = new Schema({
   updated_at: Date
 });
 
+User.plugin(passportLocalMongoose);
+
 // make this available to our users in our Node applications
-module.exports = User;
+module.exports = mongoose.model('User', User);
