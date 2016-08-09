@@ -2,12 +2,12 @@ extends layout
 
 block content
   if (!user)
-  	a(href="/login") Login
-  	br
-  	a(href="/register") Register
+    a(href="/login") Login
+    br
+    a(href="/register") Register
   if (user)
-  	p You are currently logged in as #{user.username}
-  	div#app
-  	div#users
-  	a(href="/logout") Logout
-  	script(src='/javascripts/login.js' type='text/jsx')
+    p You are currently logged in as #{user.username}
+    div#app
+    div#users
+    a(href="/logout") Logout
+    script(src='/javascripts/login.js' type='text/jsx')
