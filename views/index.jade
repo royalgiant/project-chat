@@ -1,13 +1,21 @@
 extends layout
 
 block content
-  if (!user)
-    a(href="/login") Login
-    br
-    a(href="/register") Register
-  if (user)
-    p You are currently logged in as #{user.username}
-    div#app
-    div#users
-    a(href="/logout") Logout
-    script(src='/javascripts/login.js' type='text/jsx')
+  center
+    h1. 
+      Welcome to Project-Chat
+    h4. 
+      Created using MongoDB, ExpressJS, ReactJS, and NodeJS
+    if (!user)
+      a(href="/login") 
+        button.btn.btn-primary(type="button") Log In
+      | &nbsp;
+      a(href="/register") 
+        button.btn.btn-primary(type="button") Sign Up!
+        
+    if (user)
+      p You are currently logged in as #{user.username}
+      div#app
+      div#users
+      a(href="/logout") Logout
+      script(src='/javascripts/login.js' type='text/jsx')

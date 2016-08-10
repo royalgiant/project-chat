@@ -3,11 +3,14 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var cookie = require('cookie');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var flash = require('connect-flash');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -34,7 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/', require('./routes/index.js'));
 app.use('/users', users);
 
 // passport config
