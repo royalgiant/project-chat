@@ -8,7 +8,8 @@ html
   body
     if (error && error.length > 0)
       br
-      h4.error-msg= error
+      center 
+        p.bg-danger.error-messages= error
       br
     block content
 

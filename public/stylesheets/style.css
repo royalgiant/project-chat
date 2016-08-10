@@ -6,3 +6,9 @@ body {
 a {
   color: #00B7FF;
 }
+
+.error-messages {
+	width: 300px;
+	text-align: center;
+	padding: 15px;
+}
