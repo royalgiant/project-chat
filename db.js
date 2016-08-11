@@ -47,7 +47,7 @@ module.exports = {
 		});
 	},
 	// Get a specific chatroom
-	switchChatRooms: function(chatroom_id) {
+	getChatRoom: function(chatroom_id) {
 		Chatroom.findOne({chatroom_id: chatroom_id}, function(err, chatroom){
 			if (err) return handleError(err);
 			return chatroom;

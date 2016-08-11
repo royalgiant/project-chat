@@ -95,6 +95,7 @@ io.on('connection', function(socket) {
       });
   });
 
+  /* Talk about this later
   socket.on('switchRoom', function(newroom){
       // leave the current room (stored in session)
       socket.leave(socket.room);
@@ -104,7 +105,7 @@ io.on('connection', function(socket) {
       socket.room = newroom;
       io.emit('switchedRoom', newroom);
   });
-
+  */ 
   socket.on('disconnect', function() {
     io.emit('user disconnected')
   });
