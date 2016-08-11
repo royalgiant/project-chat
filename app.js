@@ -80,5 +80,40 @@ app.use(function(err, req, res, next) {
   });
 });
 
+var connectedUsers = {};
+
+io.on('connection', function(socket) {
+  socket.on('chat message', function(msgInfo) {
+      // Send that message to everyone.
+      io.emit('chat message', msgInfo);
+      
+      // Insert that message to database
+      db.insertMessage(msgInfo.room_name, msgInfo.username, msgInfo.msg, msgInfo.unix_time, function(err) {
+          if (err) {
+              console.log('Error while inserting message into db: ' + err);
+          }
+      });
+  });
+
+  socket.on('switchRoom', function(newroom){
+      // leave the current room (stored in session)
+      socket.leave(socket.room);
+      // join new room, received as function parameter
+      socket.join(newroom);
+      // update socket session room title
+      socket.room = newroom;
+      io.emit('switchedRoom', newroom);
+  });
+
+  socket.on('disconnect', function() {
+    io.emit('user disconnected')
+  });
+
+});
+
+http.listen(PORT, function() {
+  console.log('Listening on port ' + PORT);
+});
+
 
 module.exports = app;
