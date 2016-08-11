@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // create user schema
-var chatRoomSchema = new Schema({
+var Chatroom = new Schema({
   room_name: String,
   group_chat: Boolean,
   users_names: Array,
@@ -12,4 +12,4 @@ var chatRoomSchema = new Schema({
 });
 
 // make this available to our users in our Node applications
-module.exports = User;
+module.exports = mongoose.model('Chatroom', Chatroom);
