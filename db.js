@@ -14,6 +14,13 @@ module.exports = {
 			return message;
 		});
 	},
+	// List all the messages for a chatroom
+	getMessages: function(chatroom_id) {
+		Message.find({chatroom_id: chatroom_id}, function(err, messages) {
+			if (err) return console.error(err);
+  			return messages;
+		});
+	},
 	// Create a new chatroom
 	insertChatRoom: function(room_name, group_chat, users) {
 		users_names = []
@@ -30,13 +37,6 @@ module.exports = {
 		chatroom.save(function (err, chatroom) {
 			if (err) return console.error(err);
 			return chatroom;
-		});
-	},
-	// List all the messages for a chatroom
-	getMessages: function(chatroom_id) {
-		Message.find({chatroom_id: chatroom_id}, function(err, messages) {
-			if (err) return console.error(err);
-  			return messages;
 		});
 	},
 	// List all chatrooms available

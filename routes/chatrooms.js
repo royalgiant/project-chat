@@ -15,3 +15,5 @@ router.post('/insert', function(req, res, next) {
 router.post('/room/:id', function(req, res, next) {
 	var chatroom = db.insertChatRoom(req.params.id);
 });
+
+module.exports = router;
