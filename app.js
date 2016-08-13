@@ -12,10 +12,17 @@ var LocalStrategy = require('passport-local').Strategy;
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var routes = require('./routes/index.js');
+var users = require('./routes/users.js');
+var chatRoomsRouter = require('./routes/chatrooms.js');
+var messagesRouter = require('./routes/messages.js');
 
 var app = express();
+
+// DB handler
+var db = require('./db.js');
+
+var PORT = process.env.PORT || 8080;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -45,9 +52,6 @@ var User = require('./models/user');
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-// mongoose
-mongoose.connect('mongodb://localhost/project-chat');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

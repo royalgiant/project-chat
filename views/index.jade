@@ -15,6 +15,8 @@ block content
         
     if (user)
       p You are currently logged in as #{user.username}
+      div(mega="era")
+      div(current_user=user)
       div#app
       div#users
       a(href="/logout") Logout

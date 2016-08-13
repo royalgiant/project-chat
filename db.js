@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
-var Message = require('../models/message')
-var Chatroom = require('../models/chatroom')
+var Message = require('./models/message.js')
+var Chatroom = require('./models/chatroom.js')
 
 // mongoose
 mongoose.connect('mongodb://localhost/project-chat');
