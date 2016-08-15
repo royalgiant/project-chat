@@ -1,28 +1,27 @@
 var express = require('express');
+var app = express();
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var cookie = require('cookie');
 var bodyParser = require('body-parser');
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var mongoose = require('mongoose');
 var flash = require('connect-flash');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
 
 var routes = require('./routes/index.js');
 var users = require('./routes/users.js');
 var chatRoomsRouter = require('./routes/chatrooms.js');
 var messagesRouter = require('./routes/messages.js');
 
-var app = express();
-
 // DB handler
 var db = require('./db.js');
 
-var PORT = process.env.PORT || 8080;
+var PORT = process.env.PORT || 3000;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -42,7 +41,9 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(__dirname + '/public'));
+app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+
 
 app.use('/', require('./routes/index.js'));
 app.use('/users', users);
@@ -117,4 +118,4 @@ http.listen(PORT, function() {
 });
 
 
-module.exports = app;
+module.exports = {app: app, server: http};;
