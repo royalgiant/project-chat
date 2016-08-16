@@ -18,8 +18,8 @@ var users = require('./routes/users.js');
 var chatRoomsRouter = require('./routes/chatrooms.js');
 var messagesRouter = require('./routes/messages.js');
 
-// DB handler
-var db = require('./db.js');
+// mongoose
+mongoose.connect('mongodb://localhost/project-chat');
 
 var PORT = process.env.PORT || 3000;
 
