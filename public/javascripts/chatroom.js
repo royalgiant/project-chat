@@ -23,7 +23,7 @@ var ChatApp = React.createClass({
         socket.on('user disconnected', this.handleConnection);
         socket.on('chat message', this.messageReceive);
         socket.on('switchedRoom', this.switchedRoomMessageHistory);
-        return { messages: [], rooms: [] };
+        return { messages: [], rooms: [], createRoomButton: false };
 	},
 	componentDidMount: function() {
        	this.chatRoomListLoad(); // Get all the chatrooms available
@@ -41,14 +41,18 @@ var ChatApp = React.createClass({
             }.bind(this)
         });
     },
+    createRoom: function(){
+        this.setState({createRoomButton: true});
+    },
     render: function() {
         return (
             <Grid fluid={true}>
-                <p>Hello</p>
+                <Button onClick={this.createRoom}>Create Room</Button>
+                {this.state.createRoomButton ? <RoomCreateForm /> : null}
                 <Row className='chatApp'>
                     <Col lg={4} mdPush={5} className='chatRoomList'><ChatRoomsList rooms={this.state.rooms} name={this.state.name} /></Col>
                     <Col lg={8} mdPush={5} className='messageList'>
-                        <MessagesList messages={this.state.messages} /> 
+                        <MessagesList messages={this.state.messages} />
                         <ChatForm name={this.state.name} room={this.state.room}/>
                     </Col>
                 </Row>
@@ -72,8 +76,17 @@ var ChatRoomsList = React.createClass({
     }
 });
 
-ReactDOM.render(
+var RoomCreateForm = React.createClass({
+    render: function() {
+        return (
+            <div>
+                Placeholder to room create form;
+            </div>
+        );
+    }
+});
 
+ReactDOM.render(
 	<ChatApp uiLimit={uiLimit}/>,
 	document.getElementById('app')
 );
