@@ -47,6 +47,8 @@ app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
 app.use('/', require('./routes/index.js'));
 app.use('/users', users);
+app.use('/chatrooms', chatRoomsRouter);
+app.use('/messages', messagesRouter);
 
 // passport config
 var User = require('./models/user');
