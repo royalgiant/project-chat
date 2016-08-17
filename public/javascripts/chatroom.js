@@ -76,11 +76,41 @@ var ChatRoomsList = React.createClass({
     }
 });
 
+var ChatRoom = React.createClass({
+    render: function() {
+        return (
+            <div>
+                
+            </div>
+        );
+    }
+});
+
 var RoomCreateForm = React.createClass({
     render: function() {
         return (
             <div>
                 Placeholder to room create form;
+            </div>
+        );
+    }
+});
+
+var MessagesList = React.createClass({
+    render: function() {
+        return (
+            <div>
+            
+            </div>
+        );
+    }
+});
+
+var ChatForm = React.createClass({
+    render: function() {
+        return (
+            <div>
+                
             </div>
         );
     }
