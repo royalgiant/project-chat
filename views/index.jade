@@ -6,16 +6,15 @@ block content
       Welcome to Project-Chat
     h4. 
       Created using MongoDB, ExpressJS, ReactJS, and NodeJS
+    //-
+      if (!user)
+        a(href="/login") 
+          button.btn.btn-primary(type="button") Log In
+        | &nbsp;
+        a(href="/register") 
+          button.btn.btn-primary(type="button") Sign Up!
+          
     if (!user)
-      a(href="/login") 
-        button.btn.btn-primary(type="button") Log In
-      | &nbsp;
-      a(href="/register") 
-        button.btn.btn-primary(type="button") Sign Up!
-        
-    if (user)
-      p You are currently logged in as #{user.username}
-
       div(current_user=user)
       div#app
       div#users

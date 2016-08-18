@@ -9,6 +9,10 @@ var Row = ReactBootstrap.Row;
 var Col = ReactBootstrap.Col;
 var Modal = ReactBootstrap.Modal;
 var Button = ReactBootstrap.Button;
+var FormGroup = ReactBootstrap.FormGroup;
+var FormControl = ReactBootstrap.FormControl;
+var FormHorizontal = ReactBootstrap.FormHorizontal;
+var Checkbox = ReactBootstrap.Checkbox;
 // Flux Architecture
 // ChatApp is the central state store. Notice that all other React
 // components use props, not state. Whenever a state in ChatApp changes
@@ -23,7 +27,11 @@ var ChatApp = React.createClass({
         socket.on('user disconnected', this.handleConnection);
         socket.on('chat message', this.messageReceive);
         socket.on('switchedRoom', this.switchedRoomMessageHistory);
-        return { messages: [], rooms: [], createRoomButton: false };
+        return { 
+            messages: [],
+            rooms: [], 
+            createRoomButton: false
+        };
 	},
 	componentDidMount: function() {
        	this.chatRoomListLoad(); // Get all the chatrooms available
@@ -45,10 +53,12 @@ var ChatApp = React.createClass({
         this.setState({createRoomButton: true});
     },
     render: function() {
+        let createRoomClose = () => this.setState({createRoomButton: false});
+        
         return (
             <Grid fluid={true}>
-                <Button onClick={this.createRoom}>Create Room</Button>
-                {this.state.createRoomButton ? <RoomCreateForm /> : null}
+                <Button onClick={this.createRoom} >Create Room</Button>
+                {this.state.createRoomButton ? <RoomCreateForm onHide={createRoomClose} /> : null}
                 <Row className='chatApp'>
                     <Col lg={4} mdPush={5} className='chatRoomList'><ChatRoomsList rooms={this.state.rooms} name={this.state.name} /></Col>
                     <Col lg={8} mdPush={5} className='messageList'>
@@ -86,12 +96,45 @@ var ChatRoom = React.createClass({
     }
 });
 
-var RoomCreateForm = React.createClass({
+const RoomCreateForm = React.createClass({
+    getInitialState: function(){
+        return({newRoomNameValue: "", newGroupChatValue: false});
+    },
+    handleNewRoomNameChange(e) {
+        this.setState({ newRoomNameValue: e.target.value });   
+    },
+    handleNewGroupChatChange(e) {
+        this.setState({ newGroupChatValue: !this.state.newGroupChatValue } );
+    },
     render: function() {
         return (
-            <div>
-                Placeholder to room create form;
-            </div>
+            <form onSubmit={this.handleSubmit}>
+                <FormGroup>
+                    <Col sm={2} xsOffset={5}>
+                        <FormControl 
+                            type="text"
+                            value={this.state.newRoomNameValue}
+                            placeholder="New Chatroom Name"
+                            onChange={this.handleNewRoomNameChange}
+                        />
+                    </Col>
+                </FormGroup>
+
+                <FormGroup>
+                    <Col xsOffset={5} sm={2}>
+                        <Checkbox onClick={this.handleNewGroupChatChange}>Group Chat?</Checkbox>
+                    </Col>
+                </FormGroup>
+
+                <Col xsOffset={5} sm={2}>
+                    <Button type="submit">
+                      Submit
+                    </Button>&nbsp;
+                    <Button onClick={this.props.onHide}>
+                      Cancel
+                    </Button>
+                </Col>
+            </form>
         );
     }
 });
@@ -115,6 +158,8 @@ var ChatForm = React.createClass({
         );
     }
 });
+
+
 
 ReactDOM.render(
 	<ChatApp uiLimit={uiLimit}/>,
