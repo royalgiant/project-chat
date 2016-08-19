@@ -6,9 +6,7 @@ var Message = new Schema({
   message: String,
   user_name: String,
   chatroom_id: String,
-  created_at: Date,
-  updated_at: Date 
-});
+}, {timestamps: true});
 
 // make this available to our users in our Node applications
 module.exports = mongoose.model('Message', Message);

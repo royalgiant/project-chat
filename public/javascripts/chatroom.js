@@ -1,4 +1,4 @@
-// Used by room.jade. This JS renders a Chat App for every chat room.
+
 var socket = io();
 var limit = 200;
 var uiLimit = 100;
@@ -13,6 +13,14 @@ var FormGroup = ReactBootstrap.FormGroup;
 var FormControl = ReactBootstrap.FormControl;
 var FormHorizontal = ReactBootstrap.FormHorizontal;
 var Checkbox = ReactBootstrap.Checkbox;
+// Getting cookie for express and reactjs is crap, we have to resort to primitive methods
+function getCookie(name) {
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
+// This JS renders a Chat App for every chat room.
 // Flux Architecture
 // ChatApp is the central state store. Notice that all other React
 // components use props, not state. Whenever a state in ChatApp changes
@@ -105,6 +113,25 @@ const RoomCreateForm = React.createClass({
     },
     handleNewGroupChatChange(e) {
         this.setState({ newGroupChatValue: !this.state.newGroupChatValue } );
+    },
+    handleSubmit: function(e) {
+        // Create the new room by posting to /chatrooms/insert
+        $.ajax({
+            type: 'POST',
+            url: '/chatrooms/insert',
+            data: { 
+                    room_name: this.state.newRoomNameValue,
+                    group_chat: this.state.newGroupChatValue,
+                    users_names: getCookie('username'),
+                    user_ids: getCookie('id')
+                },
+            success: function(data) {
+                console.log(data);
+            }.bind(this),
+            failure: function(xhr, status, err) {
+                console.err(url, status, err.toString());
+            }.bind(this)
+        });
     },
     render: function() {
         return (

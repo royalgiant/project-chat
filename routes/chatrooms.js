@@ -7,13 +7,11 @@ var Chatroom = require('../models/chatroom.js')
 
 // List all chatrooms available
 router.get('/', function(req, res, next) {
-	console.log('got into routes')
 	Chatroom.find({}, function(err, chatroom) {
 	  	if (err) return console.error(err);
 	  	if (chatroom.length == 0) {
 	  		return res.send("There are no chatrooms");
 	  	} else {
-	  		console.log(chatroom)
 	  		return res.send(chatroom);
 	  	}  	
 	});
@@ -21,23 +19,21 @@ router.get('/', function(req, res, next) {
 
 // Create a new chatroom
 router.post('/insert', function(req, res, next) {
-	var chatroom = function(room_name, group_chat, users) {
-		users_names = []
-		user_ids = []
-		for (var user in users) {
-			users_names.push(user.name);
-			user_ids.push(user._id);
-		}
-		var chatroom = new Chatroom({room_name: room_name, 
-			group_chat: group_chat, 
-			users_names: users_names,
-			user_ids: user_ids
-		});
-		chatroom.save(function (err, chatroom) {
-			if (err) return console.error(err);
-			return res.send(chatroom);
-		});
-	}
+	room_name = req.body["room_name"];
+	group_chat = req.body["group_chat"];
+	user_name = req.body["users_names"];
+	user_id = req.body["user_ids"];
+
+	var chatroom = new Chatroom({room_name: room_name, 
+		group_chat: group_chat, 
+		users_names: [ String(user_name) ],
+		user_ids: [ String(user_id) ]
+	});
+
+	chatroom.save(function (err, chatroom) {
+		if (err) return console.error(err);
+		return res.send(chatroom);
+	});
 });
 
 // Get a specific chatroom

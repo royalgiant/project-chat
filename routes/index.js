@@ -5,6 +5,12 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+	// Save the user info we need into cookies
+	if (req.user) {
+		res.cookie('id', String(req.user._id));
+		res.cookie('username', req.user.username);
+		res.cookie('email', req.user.email);
+	}
   	res.render('index', { user: req.user });
 });
 
@@ -30,7 +36,7 @@ router.post('/register', function(req, res) {
 });
 
 router.get('/login', function(req, res) {
-	res.render('login', { user : req.user, error: req.flash('error') });
+	res.render('login', { error: req.flash('error') });
 });
 
 router.post('/login',

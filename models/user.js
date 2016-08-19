@@ -28,9 +28,7 @@ var User = new Schema({
     age: Number,
     website: String
   },
-  created_at: Date,
-  updated_at: Date
-});
+}, {timestamps: true});
 
 User.plugin(passportLocalMongoose);
 

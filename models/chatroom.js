@@ -7,9 +7,7 @@ var Chatroom = new Schema({
   group_chat: Boolean,
   users_names: Array,
   user_ids: Array,
-  created_at: Date,
-  updated_at: Date
-});
+}, {timestamps: true});
 
 // make this available to our users in our Node applications
 module.exports = mongoose.model('Chatroom', Chatroom);
