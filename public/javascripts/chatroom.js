@@ -1,4 +1,3 @@
-
 var socket = io();
 var limit = 200;
 var uiLimit = 100;
@@ -65,15 +64,15 @@ var ChatApp = React.createClass({
         
         return (
             <Grid fluid={true}>
-                <Button onClick={this.createRoom} >Create Room</Button>
                 {this.state.createRoomButton ? <RoomCreateForm onHide={createRoomClose} /> : null}
                 <Row className='chatApp'>
-                    <Col lg={4} mdPush={5} className='chatRoomList'><ChatRoomsList rooms={this.state.rooms} name={this.state.name} /></Col>
+                    <Col lg={12} className='chatRoomList'><ChatRoomsList rooms={this.state.rooms} name={this.state.name} /></Col>
                     <Col lg={8} mdPush={5} className='messageList'>
                         <MessagesList messages={this.state.messages} />
                         <ChatForm name={this.state.name} room={this.state.room}/>
                     </Col>
                 </Row>
+                <Button onClick={this.createRoom} >Create Room</Button>
             </Grid>
         );
     }
@@ -97,9 +96,9 @@ var ChatRoomsList = React.createClass({
 var ChatRoom = React.createClass({
     render: function() {
         return (
-            <div>
-                
-            </div>
+            <li>
+                <a href={'/chatrooms/room/' + this.props.room_id}>{this.props.roomName}</a>
+            </li>
         );
     }
 });

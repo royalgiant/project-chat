@@ -37,7 +37,8 @@ router.post('/insert', function(req, res, next) {
 });
 
 // Get a specific chatroom
-router.post('/room/:id', function(req, res, next) {
+router.get('/room/:id', function(req, res, next) {
+	var chatroom_id = req.params.id;
 	Chatroom.findOne({chatroom_id: chatroom_id}, function(err, chatroom){
 		if (err) return handleError(err);
 		return res.send(chatroom);
