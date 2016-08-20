@@ -39,7 +39,7 @@ router.post('/insert', function(req, res, next) {
 // Get a specific chatroom
 router.get('/room/:id', function(req, res, next) {
 	var chatroom_id = req.params.id;
-	Chatroom.findOne({chatroom_id: chatroom_id}, function(err, chatroom){
+	Chatroom.findOne({_id: chatroom_id}, function(err, chatroom){
 		if (err) return handleError(err);
 		res.render('chat', {
 			user: req.user,

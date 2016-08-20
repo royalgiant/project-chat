@@ -3,11 +3,10 @@ extends layout
 block content
     if (user)
         header
-            h1#title
-                a(href='/') Project Chat
+            h3#title
+                a(href='/') Back to Chat List
+            h3 Chatroom: 
                 = chatroom.room_name
-            p#loginMessage Logged in as 
-                span#username= user.username
-                | .
+        div(chatroom_id=chatroom._id) 
         div#app
         script(src='/javascripts/chat.js' type='text/jsx')
