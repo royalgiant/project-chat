@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    if (user)
+        header
+            h1#title
+                a(href='/') Project Chat
+                = chatroom.room_name
+            p#loginMessage Logged in as 
+                span#username= user.username
+                | .
+        div#app
+        script(src='/javascripts/chat.js' type='text/jsx')

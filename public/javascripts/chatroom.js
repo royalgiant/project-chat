@@ -1,8 +1,3 @@
-var socket = io();
-var limit = 200;
-var uiLimit = 100;
-var maxChatMessageLength = '400';
-var timeZoneOffsetHours = new Date().getTimezoneOffset() / 60;
 var Grid = ReactBootstrap.Grid;
 var Row = ReactBootstrap.Row;
 var Col = ReactBootstrap.Col;
@@ -29,13 +24,7 @@ function getCookie(name) {
 var ChatApp = React.createClass({
 	
 	getInitialState: function() {
-		// Handle socket chat message from other users
-        socket.on('user connected', this.handleConnection);
-        socket.on('user disconnected', this.handleConnection);
-        socket.on('chat message', this.messageReceive);
-        socket.on('switchedRoom', this.switchedRoomMessageHistory);
         return { 
-            messages: [],
             rooms: [], 
             createRoomButton: false
         };
@@ -67,10 +56,6 @@ var ChatApp = React.createClass({
                 {this.state.createRoomButton ? <RoomCreateForm onHide={createRoomClose} /> : null}
                 <Row className='chatApp'>
                     <Col lg={12} className='chatRoomList'><ChatRoomsList rooms={this.state.rooms} name={this.state.name} /></Col>
-                    <Col lg={8} mdPush={5} className='messageList'>
-                        <MessagesList messages={this.state.messages} />
-                        <ChatForm name={this.state.name} room={this.state.room}/>
-                    </Col>
                 </Row>
                 <Button onClick={this.createRoom} >Create Room</Button>
             </Grid>
@@ -82,7 +67,7 @@ var ChatRoomsList = React.createClass({
     render: function() {
         var roomNodes = this.props.rooms.map(function(room, i ){
             return(
-                <ChatRoom roomName={room.room_name} key={i} room_id={room._id.$oid}/>
+                <ChatRoom roomName={room.room_name} key={i} room_id={room._id}/>
             );
         });
         return (
@@ -165,29 +150,7 @@ const RoomCreateForm = React.createClass({
     }
 });
 
-var MessagesList = React.createClass({
-    render: function() {
-        return (
-            <div>
-            
-            </div>
-        );
-    }
-});
-
-var ChatForm = React.createClass({
-    render: function() {
-        return (
-            <div>
-                
-            </div>
-        );
-    }
-});
-
-
-
 ReactDOM.render(
-	<ChatApp uiLimit={uiLimit}/>,
+	<ChatApp />,
 	document.getElementById('app')
 );

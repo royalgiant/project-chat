@@ -41,7 +41,10 @@ router.get('/room/:id', function(req, res, next) {
 	var chatroom_id = req.params.id;
 	Chatroom.findOne({chatroom_id: chatroom_id}, function(err, chatroom){
 		if (err) return handleError(err);
-		return res.send(chatroom);
+		res.render('chat', {
+			user: req.user,
+			chatroom: chatroom
+		});
 	});
 });
 
