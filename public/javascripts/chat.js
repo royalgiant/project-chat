@@ -71,6 +71,21 @@ var Chat = React.createClass({
             }.bind(this)
         });
 	},
+	// Called when app detects a new message from SocketIO
+    messageReceive: function(msgInfo) {
+        if (msgInfo.chatroom_id === this.state.chatroom_id) {
+            // Create a new msgInfo for this current React app
+            var newMsg = {
+                user_name: msgInfo.user_name,
+                message: msgInfo.message,
+                createdAt: msgInfo.createdAt
+            };
+            // Here we are concatenating the new emitted message into our ChatApp's messages list
+            var messages = this.state.messages;
+            var newMessages = messages.concat(newMsg);
+            this.setState({messages: newMessages});
+        }
+    },
 	render: function() {
 		return (
 			<Grid fluid={true}>
