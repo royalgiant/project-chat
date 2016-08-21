@@ -12,6 +12,24 @@ var FormGroup = ReactBootstrap.FormGroup;
 var FormControl = ReactBootstrap.FormControl;
 var FormHorizontal = ReactBootstrap.FormHorizontal;
 
+function convertToHHMI(unix_time) {
+    var days = Math.floor(unix_time / 86400);
+    var hours = Math.floor((unix_time - (days * 86400)) / 3600);
+    var minutes = Math.floor((unix_time - ((hours * 3600) + (days * 86400))) / 60);
+    hours -= timeZoneOffsetHours;
+    if (hours < 0) {
+        hours = 24 + hours;
+    }
+    if (minutes < 10) {
+        minutes = '0' + minutes;
+    }
+    if (hours < 10) {
+        hours = '0' + hours;
+    }
+
+    return hours + ':' + minutes;
+}
+
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -24,6 +42,7 @@ function getCookie(cname) {
 }
 
 var Chat = React.createClass({
+
 	getInitialState: function() {
 		// Handle socket chat message from other users
         socket.on('user connected', this.handleConnection);
@@ -68,21 +87,37 @@ var Chat = React.createClass({
 
 
 var MessagesList = React.createClass({
+    componentDidMount: function() {
+        var messagesList = this.refs.messagesList;
+    },
     render: function() {
+        var messageNodes = this.props.messages.map(function(msg, i) {
+            return (<Message msg={msg} key={i} />);
+        });
+        
         return (
-            <div>
-            
-            </div>
+            <ul className='messagesList' ref='messagesList'>
+                {messageNodes}
+            </ul>
         );
     }
 });
 
 var Message = React.createClass({
-	render: function() {
+	componentDidMount: function() {
+        var messageDOM = this.refs.message;
+        messageDOM.scrollIntoView();
+    },
+    render: function() {
+        var msg = this.props.msg;
         return (
-            <div>
-            
-            </div>
+            <li className='message' ref='message'>
+                <span className='messageTime'>
+                    { Number.isInteger(msg.created_at)? convertToHHMI(msg.createdAt) : convertToHHMI(Date.parse(msg.createdAt)) } 
+                </span>
+                <b className='username'>{msg.user_name.replace(/\W+/g, " ")}</b> 
+                <span className='messageText'>: {msg.message}</span>
+            </li>
         );
     }
 });
