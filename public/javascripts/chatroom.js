@@ -48,12 +48,13 @@ var ChatApp = React.createClass({
     createRoom: function(){
         this.setState({createRoomButton: true});
     },
+    createRoomClose: function() {
+        this.setState({createRoomButton: false})
+    },
     render: function() {
-        let createRoomClose = () => this.setState({createRoomButton: false});
-        
         return (
             <Grid fluid={true}>
-                {this.state.createRoomButton ? <RoomCreateForm onHide={createRoomClose} /> : null}
+                {this.state.createRoomButton ? <RoomCreateForm onHide={this.createRoomClose} /> : null}
                 <Row className='chatApp'>
                     <Col lg={12} className='chatRoomList'><ChatRoomsList rooms={this.state.rooms} name={this.state.name} /></Col>
                 </Row>

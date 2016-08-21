@@ -101,7 +101,7 @@ io.on('connection', function(socket) {
       
       // Insert that message to database
       if (msgInfo.chatroom_id) {
-          var message = new Message({message: msgInfo.message, user_name: msgInfo.user_name, chatroom_id: msgInfo.chatroom_id});
+          var message = new Message({ message: msgInfo.message, user_name: msgInfo.user_name, chatroom_id: msgInfo.chatroom_id, created_at: msgInfo.created_at });
           message.save(function (err, message) {
               if (err) return console.error(err);
               return message;

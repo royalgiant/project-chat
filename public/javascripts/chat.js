@@ -12,6 +12,14 @@ var FormGroup = ReactBootstrap.FormGroup;
 var FormControl = ReactBootstrap.FormControl;
 var FormHorizontal = ReactBootstrap.FormHorizontal;
 
+// Seconds since Unix Epoch. Used to convert between the database
+// timestamp and client JS timestamp. However it is much easier to
+// just do it in postgresql queries, as they have a lot of good 
+// date/time functions.
+function getCurrUnixTime() {
+    return Math.floor((new Date().getTime()) / 1000);
+}
+
 function convertToHHMI(unix_time) {
     var days = Math.floor(unix_time / 86400);
     var hours = Math.floor((unix_time - (days * 86400)) / 3600);
@@ -78,7 +86,7 @@ var Chat = React.createClass({
             var newMsg = {
                 user_name: msgInfo.user_name,
                 message: msgInfo.message,
-                createdAt: msgInfo.createdAt
+                created_at: msgInfo.created_at
             };
             // Here we are concatenating the new emitted message into our ChatApp's messages list
             var messages = this.state.messages;
@@ -128,7 +136,7 @@ var Message = React.createClass({
         return (
             <li className='message' ref='message'>
                 <span className='messageTime'>
-                    { Number.isInteger(msg.created_at)? convertToHHMI(msg.createdAt) : convertToHHMI(Date.parse(msg.createdAt)) } 
+                    { convertToHHMI(parseInt(msg.created_at)) } 
                 </span>
                 <b className='username'>{msg.user_name.replace(/\W+/g, " ")}</b> 
                 <span className='messageText'>: {msg.message}</span>
@@ -152,6 +160,7 @@ var ChatForm = React.createClass({
             chatroom_id: this.props.chatroom_id,
             message: msgDOMNode.value,
             user_name: getCookie('username'),
+            created_at: getCurrUnixTime()
         };
      
         socket.emit('chat message', msgInfo);
