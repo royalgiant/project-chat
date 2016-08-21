@@ -54,11 +54,11 @@ var ChatApp = React.createClass({
     render: function() {
         return (
             <Grid fluid={true}>
-                {this.state.createRoomButton ? <RoomCreateForm onHide={this.createRoomClose} /> : null}
                 <Row className='chatApp'>
                     <Col lg={12} className='chatRoomList'><ChatRoomsList rooms={this.state.rooms} name={this.state.name} /></Col>
                 </Row>
                 <Button onClick={this.createRoom} >Create Room</Button>
+                {this.state.createRoomButton ? <RoomCreateForm onHide={this.createRoomClose} /> : null}
             </Grid>
         );
     }

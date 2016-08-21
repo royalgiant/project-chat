@@ -5,6 +5,8 @@
     "start": "node ./bin/www",
     "test": "make test"
   },
+  "engines": { "node": "5.10.1" },
+  "scripts": 
   "description": "Chat app using MongoDB, Express, React, and Node",
   "dependencies": {
     "body-parser": "~1.10.2",

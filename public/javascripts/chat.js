@@ -138,7 +138,7 @@ var Message = React.createClass({
                 <span className='messageTime'>
                     { convertToHHMI(parseInt(msg.created_at)) } 
                 </span>
-                <b className='username'>{msg.user_name.replace(/\W+/g, " ")}</b> 
+                <b className='username'> {msg.user_name.replace(/\W+/g, " ")}</b> 
                 <span className='messageText'>: {msg.message}</span>
             </li>
         );
