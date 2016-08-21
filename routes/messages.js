@@ -4,8 +4,9 @@ var Message = require('../models/message.js')
 
 // Actual variables used are arbitrary at this point
 // PROBLEM: We should probably limit the amount of messages we get because if we had 1 billion, that'd be alot of messages
-router.get('/', function(req, res, next){
-    if (req.query.chatroom && req.query.limit) {
+router.get('/:chatroom_id', function(req, res, next){
+    var chatroom_id = req.params.chatroom_id
+    if (chatroom_id) {
         Message.find({chatroom_id: chatroom_id}, function(err, messages) {
             if (err) return console.error(err);
             return res.send(messages);

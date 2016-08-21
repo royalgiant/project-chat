@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var cookie = require('cookie');
 var bodyParser = require('body-parser');
 var http = require('http').Server(app);
+var request = require('request');
 var io = require('socket.io')(http);
 var mongoose = require('mongoose');
 var flash = require('connect-flash');
