@@ -14,10 +14,14 @@ var flash = require('connect-flash');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+// Routes 
 var routes = require('./routes/index.js');
 var users = require('./routes/users.js');
 var chatRoomsRouter = require('./routes/chatrooms.js');
 var messagesRouter = require('./routes/messages.js');
+
+// Models Required
+var Message = require('./models/message.js')
 
 // mongoose
 mongoose.connect('mongodb://localhost/project-chat');
@@ -96,7 +100,15 @@ io.on('connection', function(socket) {
       io.emit('chat message', msgInfo);
       
       // Insert that message to database
-      db.insertMessage(msgInfo.msg, msgInfo.username, msgInfo.room_name);
+      if (msgInfo.chatroom_id) {
+          var message = new Message({message: msgInfo.message, user_name: msgInfo.user_name, chatroom_id: msgInfo.chatroom_id});
+          message.save(function (err, message) {
+              if (err) return console.error(err);
+              return message;
+          });
+      } else {
+          res.send('Invalid URL: no chat room specified! Example of good URL: /messages?chatroom=general');
+      }
   });
 
   /* Talk about this later

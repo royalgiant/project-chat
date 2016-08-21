@@ -16,18 +16,4 @@ router.get('/:chatroom_id', function(req, res, next){
     }
 });
 
-router.post('/insert', function(req, res, next) {
-    var message = function(message, user_name, chatroom_id) {
-        if (req.query.chatroom) {
-            var message = new Message({message: message, user_name: user_name, chatroom_id: chatroom_id});
-            message.save(function (err, message) {
-                if (err) return console.error(err);
-                return message;
-            });
-        } else {
-            res.send('Invalid URL: no chat room specified! Example of good URL: /messages?chatroom=general');
-        }
-    };
-}); 
-
 module.exports = router;
