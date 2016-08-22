@@ -55,7 +55,9 @@ var ChatApp = React.createClass({
         return (
             <Grid fluid={true}>
                 <Row className='chatApp'>
-                    <Col lg={12} className='chatRoomList'><ChatRoomsList rooms={this.state.rooms} name={this.state.name} /></Col>
+                    <Col lg={12} className='chatRoomList'>
+                        <ChatRoomsList rooms={this.state.rooms} name={this.state.name} />
+                    </Col>
                 </Row>
                 <Button onClick={this.createRoom} >Create Room</Button>
                 {this.state.createRoomButton ? <RoomCreateForm onHide={this.createRoomClose} /> : null}
@@ -66,16 +68,22 @@ var ChatApp = React.createClass({
 
 var ChatRoomsList = React.createClass({
     render: function() {
-        var roomNodes = this.props.rooms.map(function(room, i ){
-            return(
-                <ChatRoom roomName={room.room_name} key={i} room_id={room._id}/>
+        if (this.props.rooms != "There are no chatrooms") {
+            var roomNodes = this.props.rooms.map(function(room, i ){
+                return(
+                    <ChatRoom roomName={room.room_name} key={i} room_id={room._id}/>
+                );
+            });
+            return (
+                <ul>
+                    {roomNodes}
+                </ul>
             );
-        });
-        return (
-            <ul>
-                {roomNodes}
-            </ul>
-        );
+        } else {
+            return(
+                <ul></ul>
+            );
+        }      
     }
 });
 
